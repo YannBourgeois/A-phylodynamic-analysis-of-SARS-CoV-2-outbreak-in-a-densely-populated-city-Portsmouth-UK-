@@ -1,5 +1,5 @@
 # A phylodynamic analysis of SARS-CoV-2 outbreak in a densely populated city (Portsmouth, UK).
-A repository with reports on phylodynamic analyses realized on COVID-19 sequences collected at the University of Portsmouth/Portsmouth Hospital. BEAST2 XML files are provided. Sequences and sampling times have been removed (GISAID accession numbers to be provided), but all other options and prior distributions for all parameters have been kept unedited.
+A repository with reports on phylodynamic analyses realized on COVID-19 sequences collected at the University of Portsmouth/Portsmouth Hospital. BEAST2 XML files are provided. Sequences and sampling times have been removed (GISAID accession numbers to be provided), but all other options and prior distributions for all parameters have been kept unedited. This work is preliminary and not peer-reviewed.
 
 Yann Bourgeois (1), Chauhan Anoop (2), Angela Beckett (1), Glaysher Sharon (2), Elliott Scott (2), Ethan Butcher (2), Sarah Wyllie (2), Lloyd Allyson (2), Garry Scarlett (1), Bicknell Kelly (2), Samuel Robson (1,3), part of the COG-UK consortium https://www.cogconsortium.uk/
 
