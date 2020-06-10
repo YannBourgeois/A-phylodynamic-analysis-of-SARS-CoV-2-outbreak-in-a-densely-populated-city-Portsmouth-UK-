@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast beautitemplate='Standard' beautistatus='' namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" required="" version="2.6">
+
+
+    <data
+id="filtered_sequences_masked"
+spec="Alignment"
+name="alignment">
+                        <sequence id=""/>
+                    </data>
+
+
+    
+
+
+    
+
+
+    
+<map name="Uniform" >beast.math.distributions.Uniform</map>
+<map name="Exponential" >beast.math.distributions.Exponential</map>
+<map name="LogNormal" >beast.math.distributions.LogNormalDistributionModel</map>
+<map name="Normal" >beast.math.distributions.Normal</map>
+<map name="Beta" >beast.math.distributions.Beta</map>
+<map name="Gamma" >beast.math.distributions.Gamma</map>
+<map name="LaplaceDistribution" >beast.math.distributions.LaplaceDistribution</map>
+<map name="prior" >beast.math.distributions.Prior</map>
+<map name="InverseGamma" >beast.math.distributions.InverseGamma</map>
+<map name="OneOnX" >beast.math.distributions.OneOnX</map>
+
+
+<run id="mcmc" spec="MCMC" chainLength="10000000" numInitializationAttempts="1000">
+    <state id="state" spec="State" storeEvery="5000">
+        <tree id="Tree.t:filtered_sequences_masked" spec="beast.evolution.tree.Tree" name="stateNode">
+            <trait id="dateTrait.t:filtered_sequences_masked" spec="beast.evolution.tree.TraitSet" dateFormat="yyyy-M-dd" traitname="date" value="">
+                <taxa id="TaxonSet.filtered_sequences_masked" spec="TaxonSet">
+                    <alignment idref="filtered_sequences_masked"/>
+                </taxa>
+            </trait>
+            <taxonset idref="TaxonSet.filtered_sequences_masked"/>
+        </tree>
+        <parameter id="clockRate.c:filtered_sequences_masked" spec="parameter.RealParameter" lower="9.9E-4" name="stateNode" upper="0.00101">0.001</parameter>
+        <parameter id="kappa.s:filtered_sequences_masked" spec="parameter.RealParameter" lower="0.0" name="stateNode">2.0</parameter>
+        <parameter id="origin_BDSKY_multiRho.t:filtered_sequences_masked" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="Infinity">10.0</parameter>
+        <parameter id="rho_BDSKY_multiRho.t:filtered_sequences_masked" spec="parameter.RealParameter" dimension="2" lower="0.0" name="stateNode" upper="1.0">0.01 0.1</parameter>
+        <parameter id="reproductiveNumber_BDSKY_multiRho.t:filtered_sequences_masked" spec="parameter.RealParameter" dimension="5" lower="0.0" name="stateNode" upper="Infinity">2.0</parameter>
+        <parameter id="samplingProportion_BDSKY_multiRho.t:filtered_sequences_masked" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.01</parameter>
+        <parameter id="freqParameter.s:filtered_sequences_masked" spec="parameter.RealParameter" dimension="4" lower="0.0" name="stateNode" upper="1.0">0.25</parameter>
+    </state>
+
+    <init id="RandomTree.t:filtered_sequences_masked" spec="beast.evolution.tree.RandomTree" estimate="false" initial="@Tree.t:filtered_sequences_masked" taxa="@filtered_sequences_masked">
+        <populationModel id="ConstantPopulation0.t:filtered_sequences_masked" spec="ConstantPopulation">
+            <parameter id="randomPopSize.t:filtered_sequences_masked" spec="parameter.RealParameter" name="popSize">1.0</parameter>
+        </populationModel>
+    </init>
+
+    <distribution id="posterior" spec="util.CompoundDistribution">
+        <distribution id="prior" spec="util.CompoundDistribution">
+            <distribution id="BDSKY_multiRho.t:filtered_sequences_masked" spec="beast.evolution.speciation.BirthDeathSkylineModel" origin="@origin_BDSKY_multiRho.t:filtered_sequences_masked" reproductiveNumber="@reproductiveNumber_BDSKY_multiRho.t:filtered_sequences_masked" rho="@rho_BDSKY_multiRho.t:filtered_sequences_masked" samplingProportion="@samplingProportion_BDSKY_multiRho.t:filtered_sequences_masked" tree="@Tree.t:filtered_sequences_masked">
+                <reverseTimeArrays id="BooleanParameter.0" spec="parameter.BooleanParameter" dimension="5">false false false true false</reverseTimeArrays>
+                <parameter id="rhoChangeTimes_BDSKY_multiRho.t:filtered_sequences_masked" spec="parameter.RealParameter" dimension="2" estimate="false" lower="0.0" name="rhoSamplingTimes">0.0 1.0</parameter>
+                <parameter id="becomeUninfectiousRate_BDSKY_multiRho.t:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" lower="0.0" name="becomeUninfectiousRate" upper="Infinity">36.5</parameter>
+            </distribution>
+            <prior id="ClockPrior.c:filtered_sequences_masked" name="distribution" x="@clockRate.c:filtered_sequences_masked">
+                <Uniform id="Uniform.0" lower="9.9E-4" name="distr" upper="0.00101"/>
+            </prior>
+            <prior id="FrequenciesPrior.s:filtered_sequences_masked" name="distribution" x="@freqParameter.s:filtered_sequences_masked">
+                <Uniform id="Uniform.3" name="distr"/>
+            </prior>
+            <prior id="KappaPrior.s:filtered_sequences_masked" name="distribution" x="@kappa.s:filtered_sequences_masked">
+                <LogNormal id="LogNormalDistributionModel.0" name="distr">
+                    <parameter id="RealParameter.1" spec="parameter.RealParameter" estimate="false" name="M">1.0</parameter>
+                    <parameter id="RealParameter.2" spec="parameter.RealParameter" estimate="false" name="S">1.25</parameter>
+                </LogNormal>
+            </prior>
+            <prior id="originPrior_BDSKY_multiRho.t:filtered_sequences_masked" name="distribution" x="@origin_BDSKY_multiRho.t:filtered_sequences_masked">
+                <LogNormal id="LogNormalDistributionModel.3" name="distr">
+                    <parameter id="RealParameter.11" spec="parameter.RealParameter" estimate="false" name="M">1.0</parameter>
+                    <parameter id="RealParameter.12" spec="parameter.RealParameter" estimate="false" lower="0.0" name="S" upper="5.0">1.25</parameter>
+                </LogNormal>
+            </prior>
+            <prior id="reproductiveNumberPrior_BDSKY_multiRho.t:filtered_sequences_masked" name="distribution" x="@reproductiveNumber_BDSKY_multiRho.t:filtered_sequences_masked">
+                <LogNormal id="LogNormalDistributionModel.2" name="distr">
+                    <parameter id="RealParameter.7" spec="parameter.RealParameter" estimate="false" name="M">0.0</parameter>
+                    <parameter id="RealParameter.8" spec="parameter.RealParameter" estimate="false" name="S">1.0</parameter>
+                </LogNormal>
+            </prior>
+            <prior id="rhoPrior_BDSKY_multiRho.t:filtered_sequences_masked" name="distribution" x="@rho_BDSKY_multiRho.t:filtered_sequences_masked">
+                <Beta id="Beta.0" name="distr">
+                    <parameter id="RealParameter.3" spec="parameter.RealParameter" estimate="false" name="alpha">1.0</parameter>
+                    <parameter id="RealParameter.4" spec="parameter.RealParameter" estimate="false" name="beta">1.0</parameter>
+                </Beta>
+            </prior>
+            <prior id="samplingProportionPrior_BDSKY_multiRho.t:filtered_sequences_masked" name="distribution" x="@samplingProportion_BDSKY_multiRho.t:filtered_sequences_masked">
+                <Uniform id="Uniform.5" name="distr"/>
+            </prior>
+        </distribution>
+        <distribution id="likelihood" spec="util.CompoundDistribution" useThreads="true">
+            <distribution id="treeLikelihood.filtered_sequences_masked" spec="ThreadedTreeLikelihood" data="@filtered_sequences_masked" tree="@Tree.t:filtered_sequences_masked">
+                <siteModel id="SiteModel.s:filtered_sequences_masked" spec="SiteModel">
+                    <parameter id="mutationRate.s:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" name="mutationRate">1.0</parameter>
+                    <parameter id="gammaShape.s:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" name="shape">1.0</parameter>
+                    <parameter id="proportionInvariant.s:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" lower="0.0" name="proportionInvariant" upper="1.0">0.0</parameter>
+                    <substModel id="hky.s:filtered_sequences_masked" spec="HKY" kappa="@kappa.s:filtered_sequences_masked">
+                        <frequencies id="estimatedFreqs.s:filtered_sequences_masked" spec="Frequencies" frequencies="@freqParameter.s:filtered_sequences_masked"/>
+                    </substModel>
+                </siteModel>
+                <branchRateModel id="StrictClock.c:filtered_sequences_masked" spec="beast.evolution.branchratemodel.StrictClockModel" clock.rate="@clockRate.c:filtered_sequences_masked"/>
+            </distribution>
+        </distribution>
+    </distribution>
+
+    <operator id="StrictClockRateScaler.c:filtered_sequences_masked" spec="ScaleOperator" parameter="@clockRate.c:filtered_sequences_masked" scaleFactor="0.75" weight="3.0"/>
+
+    <operator id="strictClockUpDownOperator.c:filtered_sequences_masked" spec="UpDownOperator" scaleFactor="0.75" weight="3.0">
+        <up idref="clockRate.c:filtered_sequences_masked"/>
+        <down idref="Tree.t:filtered_sequences_masked"/>
+    </operator>
+
+    <operator id="KappaScaler.s:filtered_sequences_masked" spec="ScaleOperator" parameter="@kappa.s:filtered_sequences_masked" scaleFactor="0.5" weight="0.1"/>
+
+    <operator id="BDSKY_multiRhoTreeScaler.t:filtered_sequences_masked" spec="ScaleOperator" scaleFactor="0.5" tree="@Tree.t:filtered_sequences_masked" weight="3.0"/>
+
+    <operator id="BDSKY_multiRhoTreeRootScaler.t:filtered_sequences_masked" spec="ScaleOperator" rootOnly="true" scaleFactor="0.5" tree="@Tree.t:filtered_sequences_masked" weight="3.0"/>
+
+    <operator id="BDSKY_multiRhoUniformOperator.t:filtered_sequences_masked" spec="Uniform" tree="@Tree.t:filtered_sequences_masked" weight="30.0"/>
+
+    <operator id="BDSKY_multiRhoSubtreeSlide.t:filtered_sequences_masked" spec="SubtreeSlide" tree="@Tree.t:filtered_sequences_masked" weight="15.0"/>
+
+    <operator id="BDSKY_multiRhoNarrow.t:filtered_sequences_masked" spec="Exchange" tree="@Tree.t:filtered_sequences_masked" weight="15.0"/>
+
+    <operator id="BDSKY_multiRhoWide.t:filtered_sequences_masked" spec="Exchange" isNarrow="false" tree="@Tree.t:filtered_sequences_masked" weight="3.0"/>
+
+    <operator id="BDSKY_multiRhoWilsonBalding.t:filtered_sequences_masked" spec="WilsonBalding" tree="@Tree.t:filtered_sequences_masked" weight="3.0"/>
+
+    <operator id="rhoScaler_BDSKY_multiRho.t:filtered_sequences_masked" spec="ScaleOperator" parameter="@rho_BDSKY_multiRho.t:filtered_sequences_masked" scaleFactor="0.75" weight="1.0"/>
+
+    <operator id="reproductiveNumberScaler_BDSKY_multiRho.t:filtered_sequences_masked" spec="ScaleOperator" parameter="@reproductiveNumber_BDSKY_multiRho.t:filtered_sequences_masked" scaleFactor="0.75" weight="10.0"/>
+
+    <operator id="samplingProportionScaler_BDSKY_multiRho.t:filtered_sequences_masked" spec="ScaleOperator" parameter="@samplingProportion_BDSKY_multiRho.t:filtered_sequences_masked" scaleFactor="0.75" weight="10.0"/>
+
+    <operator id="origScaler_BDSKY_multiRho.t:filtered_sequences_masked" spec="ScaleOperator" parameter="@origin_BDSKY_multiRho.t:filtered_sequences_masked" scaleFactor="0.75" weight="1.0"/>
+
+    <operator id="FrequenciesExchanger.s:filtered_sequences_masked" spec="DeltaExchangeOperator" delta="0.01" weight="0.1">
+        <parameter idref="freqParameter.s:filtered_sequences_masked"/>
+    </operator>
+
+    <logger id="tracelog" spec="Logger" fileName="filtered_sequences_masked.log" logEvery="1000" model="@posterior" sanitiseHeaders="true" sort="smart">
+        <log idref="posterior"/>
+        <log idref="likelihood"/>
+        <log idref="prior"/>
+        <log idref="treeLikelihood.filtered_sequences_masked"/>
+        <log id="TreeHeight.t:filtered_sequences_masked" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.t:filtered_sequences_masked"/>
+        <log idref="clockRate.c:filtered_sequences_masked"/>
+        <log idref="kappa.s:filtered_sequences_masked"/>
+        <log idref="BDSKY_multiRho.t:filtered_sequences_masked"/>
+        <log idref="origin_BDSKY_multiRho.t:filtered_sequences_masked"/>
+        <log idref="rho_BDSKY_multiRho.t:filtered_sequences_masked"/>
+        <log idref="reproductiveNumber_BDSKY_multiRho.t:filtered_sequences_masked"/>
+        <log idref="samplingProportion_BDSKY_multiRho.t:filtered_sequences_masked"/>
+        <log idref="freqParameter.s:filtered_sequences_masked"/>
+    </logger>
+
+    <logger id="screenlog" spec="Logger" logEvery="1000">
+        <log idref="posterior"/>
+        <log idref="likelihood"/>
+        <log idref="prior"/>
+    </logger>
+
+    <logger id="treelog.t:filtered_sequences_masked" spec="Logger" fileName="$(tree).trees" logEvery="1000" mode="tree">
+        <log id="TreeWithMetaDataLogger.t:filtered_sequences_masked" spec="beast.evolution.tree.TreeWithMetaDataLogger" tree="@Tree.t:filtered_sequences_masked"/>
+    </logger>
+
+    <operatorschedule id="OperatorSchedule" spec="OperatorSchedule"/>
+
+</run>
+
+</beast>

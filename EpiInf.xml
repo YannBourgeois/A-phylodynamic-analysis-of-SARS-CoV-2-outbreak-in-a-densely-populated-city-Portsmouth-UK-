@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast beautitemplate='Standard' beautistatus='' namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" required="" version="2.6">
+
+
+    <data
+id="filtered_sequences_masked"
+spec="Alignment"
+name="alignment">
+                        <sequence id=""/>
+                    </data>
+
+
+    
+
+
+    
+
+
+    
+<map name="Uniform" >beast.math.distributions.Uniform</map>
+<map name="Exponential" >beast.math.distributions.Exponential</map>
+<map name="LogNormal" >beast.math.distributions.LogNormalDistributionModel</map>
+<map name="Normal" >beast.math.distributions.Normal</map>
+<map name="Beta" >beast.math.distributions.Beta</map>
+<map name="Gamma" >beast.math.distributions.Gamma</map>
+<map name="LaplaceDistribution" >beast.math.distributions.LaplaceDistribution</map>
+<map name="prior" >beast.math.distributions.Prior</map>
+<map name="InverseGamma" >beast.math.distributions.InverseGamma</map>
+<map name="OneOnX" >beast.math.distributions.OneOnX</map>
+
+
+<run id="mcmc" spec="MCMC" chainLength="10000000" numInitializationAttempts="1000">
+    <state id="state" spec="State" storeEvery="5000">
+        <tree id="Tree.t:filtered_sequences_masked" spec="beast.evolution.tree.Tree" name="stateNode">
+            <trait id="dateTrait.t:filtered_sequences_masked" spec="beast.evolution.tree.TraitSet" dateFormat="yyyy-M-dd" traitname="date" value="">
+                <taxa id="TaxonSet.filtered_sequences_masked" spec="TaxonSet">
+                    <alignment idref="filtered_sequences_masked"/>
+                </taxa>
+            </trait>
+            <taxonset idref="TaxonSet.filtered_sequences_masked"/>
+        </tree>
+        <parameter id="clockRate.c:filtered_sequences_masked" spec="parameter.RealParameter" lower="9.9E-4" name="stateNode" upper="0.00101">0.001</parameter>
+        <parameter id="kappa.s:filtered_sequences_masked" spec="parameter.RealParameter" lower="0.0" name="stateNode">2.0</parameter>
+        <parameter id="infectionRate.t:filtered_sequences_masked" spec="parameter.RealParameter" lower="0.0" name="stateNode">0.01</parameter>
+        <parameter id="psiSamplingVariable.t:filtered_sequences_masked" spec="parameter.RealParameter" lower="0.0" name="stateNode">0.1</parameter>
+        <parameter id="epiOrigin.t:filtered_sequences_masked" spec="parameter.RealParameter" name="stateNode">10.0</parameter>
+        <parameter id="freqParameter.s:filtered_sequences_masked" spec="parameter.RealParameter" dimension="4" lower="0.0" name="stateNode" upper="1.0">0.25</parameter>
+    </state>
+
+    <init id="RandomTree.t:filtered_sequences_masked" spec="beast.evolution.tree.RandomTree" estimate="false" initial="@Tree.t:filtered_sequences_masked" taxa="@filtered_sequences_masked">
+        <populationModel id="ConstantPopulation0.t:filtered_sequences_masked" spec="ConstantPopulation">
+            <parameter id="randomPopSize.t:filtered_sequences_masked" spec="parameter.RealParameter" name="popSize">1.0</parameter>
+        </populationModel>
+    </init>
+
+    <distribution id="posterior" spec="util.CompoundDistribution">
+        <distribution id="prior" spec="util.CompoundDistribution">
+            <distribution id="EpiTreePrior.t:filtered_sequences_masked" spec="epiinf.distribs.SMCTreeDensity" nParticles="120" tree="@Tree.t:filtered_sequences_masked">
+                <model id="SIRModel.5" spec="epiinf.models.SIRModel" infectionRate="@infectionRate.t:filtered_sequences_masked" origin="@epiOrigin.t:filtered_sequences_masked" psiSamplingVariable="@psiSamplingVariable.t:filtered_sequences_masked" rhoSamplingTimesBackward="true" usePsiSamplingProportion="true">
+                    <parameter id="S0.t:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" lower="0.0" name="S0">1000.0</parameter>
+                    <parameter id="recoveryRate.t:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" lower="0.0" name="recoveryRate">36.5</parameter>
+                    <parameter id="removalProb.t:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" lower="0.0" name="removalProb" upper="1.0">1.0</parameter>
+                    <parameter id="rhoSamplingProb.t:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" lower="0.0" name="rhoSamplingProb">0.0</parameter>
+                    <parameter id="RealParameter.13" spec="parameter.RealParameter" lower="0.0" name="rhoSamplingTime" upper="0.0">0.0</parameter>
+                </model>
+                <parameter id="finalTreeSampleOffset.t:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" name="finalTreeSampleOffset">0.0</parameter>
+                <incidenceData id="incidenceData.t:filtered_sequences_masked" spec="epiinf.IncidenceData" valuesAreAges="true">
+                    <parameter id="finalIncidenceSampleOffset.t:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" name="finalSampleOffset">0.0</parameter>
+                </incidenceData>
+            </distribution>
+            <prior id="ClockPrior.c:filtered_sequences_masked" name="distribution" x="@clockRate.c:filtered_sequences_masked">
+                <Uniform id="Uniform.0" lower="9.9E-4" name="distr" upper="0.00101"/>
+            </prior>
+            <prior id="epiOriginPrior.t:filtered_sequences_masked" name="distribution" x="@epiOrigin.t:filtered_sequences_masked">
+                <OneOnX id="OneOnX.1" name="distr"/>
+            </prior>
+            <prior id="FrequenciesPrior.s:filtered_sequences_masked" name="distribution" x="@freqParameter.s:filtered_sequences_masked">
+                <Uniform id="Uniform.3" name="distr"/>
+            </prior>
+            <prior id="infectionRatePrior.t:filtered_sequences_masked" name="distribution" x="@infectionRate.t:filtered_sequences_masked">
+                <OneOnX id="OneOnX.4" name="distr"/>
+            </prior>
+            <prior id="KappaPrior.s:filtered_sequences_masked" name="distribution" x="@kappa.s:filtered_sequences_masked">
+                <LogNormal id="LogNormalDistributionModel.0" name="distr">
+                    <parameter id="RealParameter.1" spec="parameter.RealParameter" estimate="false" name="M">1.0</parameter>
+                    <parameter id="RealParameter.2" spec="parameter.RealParameter" estimate="false" name="S">1.25</parameter>
+                </LogNormal>
+            </prior>
+            <prior id="psiSamplingVariablePrior.t:filtered_sequences_masked" name="distribution" x="@psiSamplingVariable.t:filtered_sequences_masked">
+                <OneOnX id="OneOnX.8" name="distr"/>
+            </prior>
+        </distribution>
+        <distribution id="likelihood" spec="util.CompoundDistribution" useThreads="true">
+            <distribution id="treeLikelihood.filtered_sequences_masked" spec="ThreadedTreeLikelihood" data="@filtered_sequences_masked" tree="@Tree.t:filtered_sequences_masked">
+                <siteModel id="SiteModel.s:filtered_sequences_masked" spec="SiteModel">
+                    <parameter id="mutationRate.s:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" name="mutationRate">1.0</parameter>
+                    <parameter id="gammaShape.s:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" name="shape">1.0</parameter>
+                    <parameter id="proportionInvariant.s:filtered_sequences_masked" spec="parameter.RealParameter" estimate="false" lower="0.0" name="proportionInvariant" upper="1.0">0.0</parameter>
+                    <substModel id="hky.s:filtered_sequences_masked" spec="HKY" kappa="@kappa.s:filtered_sequences_masked">
+                        <frequencies id="estimatedFreqs.s:filtered_sequences_masked" spec="Frequencies" frequencies="@freqParameter.s:filtered_sequences_masked"/>
+                    </substModel>
+                </siteModel>
+                <branchRateModel id="StrictClock.c:filtered_sequences_masked" spec="beast.evolution.branchratemodel.StrictClockModel" clock.rate="@clockRate.c:filtered_sequences_masked"/>
+            </distribution>
+        </distribution>
+    </distribution>
+
+    <operator id="StrictClockRateScaler.c:filtered_sequences_masked" spec="ScaleOperator" parameter="@clockRate.c:filtered_sequences_masked" scaleFactor="0.75" weight="3.0"/>
+
+    <operator id="strictClockUpDownOperator.c:filtered_sequences_masked" spec="UpDownOperator" scaleFactor="0.75" weight="3.0">
+        <up idref="clockRate.c:filtered_sequences_masked"/>
+        <down idref="Tree.t:filtered_sequences_masked"/>
+    </operator>
+
+    <operator id="KappaScaler.s:filtered_sequences_masked" spec="ScaleOperator" parameter="@kappa.s:filtered_sequences_masked" scaleFactor="0.5" weight="0.1"/>
+
+    <operator id="EpiTreePriorSATreeScaler.t:filtered_sequences_masked" spec="SAScaleOperator" scaleFactor="0.95" tree="@Tree.t:filtered_sequences_masked" weight="20.0"/>
+
+    <operator id="EpiTreePriorSATreeRootScaler.t:filtered_sequences_masked" spec="SAScaleOperator" rootOnly="true" scaleFactor="0.95" tree="@Tree.t:filtered_sequences_masked" weight="1.0"/>
+
+    <operator id="EpiTreePriorSAUniformOperator.t:filtered_sequences_masked" spec="SAUniform" tree="@Tree.t:filtered_sequences_masked" weight="20.0"/>
+
+    <operator id="EpiTreePriorSAWilsonBalding.t:filtered_sequences_masked" spec="SAWilsonBalding" tree="@Tree.t:filtered_sequences_masked" weight="20.0"/>
+
+    <operator id="EpiTreePriorSAWide.t:filtered_sequences_masked" spec="SAExchange" isNarrow="false" tree="@Tree.t:filtered_sequences_masked" weight="20.0"/>
+
+    <operator id="EpiTreePriorSANarrow.t:filtered_sequences_masked" spec="SAExchange" tree="@Tree.t:filtered_sequences_masked" weight="20.0"/>
+
+    <operator id="EpiTreePriorLeafToSA.t:filtered_sequences_masked" spec="LeafToSampledAncestorJump" tree="@Tree.t:filtered_sequences_masked" weight="20.0"/>
+
+    <operator id="EpiTreePriorUpDown.t:filtered_sequences_masked" spec="UpDownOperator" scaleFactor="0.75" weight="20.0">
+        <up idref="infectionRate.t:filtered_sequences_masked"/>
+        <down idref="Tree.t:filtered_sequences_masked"/>
+    </operator>
+
+    <operator id="infectionRateScaler.t:filtered_sequences_masked" spec="ScaleOperator" parameter="@infectionRate.t:filtered_sequences_masked" scaleFactor="0.8" weight="1.0"/>
+
+    <operator id="psiSamplingVariableScaler.t:filtered_sequences_masked" spec="ScaleOperator" parameter="@psiSamplingVariable.t:filtered_sequences_masked" scaleFactor="0.8" weight="1.0"/>
+
+    <operator id="epiOriginScaler.t:filtered_sequences_masked" spec="ScaleOperator" parameter="@epiOrigin.t:filtered_sequences_masked" scaleFactor="0.8" weight="1.0"/>
+
+    <operator id="FrequenciesExchanger.s:filtered_sequences_masked" spec="DeltaExchangeOperator" delta="0.01" weight="0.1">
+        <parameter idref="freqParameter.s:filtered_sequences_masked"/>
+    </operator>
+
+    <logger id="tracelog" spec="Logger" fileName="filtered_sequences_masked.log" logEvery="1000" model="@posterior" sanitiseHeaders="true" sort="smart">
+        <log idref="posterior"/>
+        <log idref="likelihood"/>
+        <log idref="prior"/>
+        <log idref="treeLikelihood.filtered_sequences_masked"/>
+        <log id="TreeHeight.t:filtered_sequences_masked" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.t:filtered_sequences_masked"/>
+        <log idref="clockRate.c:filtered_sequences_masked"/>
+        <log idref="kappa.s:filtered_sequences_masked"/>
+        <log idref="infectionRate.t:filtered_sequences_masked"/>
+        <log idref="psiSamplingVariable.t:filtered_sequences_masked"/>
+        <log idref="epiOrigin.t:filtered_sequences_masked"/>
+        <log idref="freqParameter.s:filtered_sequences_masked"/>
+    </logger>
+
+    <logger id="screenlog" spec="Logger" logEvery="1000">
+        <log idref="posterior"/>
+        <log idref="likelihood"/>
+        <log idref="prior"/>
+    </logger>
+
+    <logger id="treelog.t:filtered_sequences_masked" spec="Logger" fileName="$(tree).trees" logEvery="1000" mode="tree">
+        <log id="TreeWithMetaDataLogger.t:filtered_sequences_masked" spec="beast.evolution.tree.TreeWithMetaDataLogger" tree="@Tree.t:filtered_sequences_masked"/>
+    </logger>
+
+    <logger id="trajlog.t:filtered_sequences_masked" spec="Logger" fileName="$(filebase).filtered_sequences_masked.traj" logEvery="1000">
+        <log id="trajectory.t:filtered_sequences_masked" spec="epiinf.TrajectoryLogger" treeDensity="@EpiTreePrior.t:filtered_sequences_masked"/>
+    </logger>
+
+    <operatorschedule id="OperatorSchedule" spec="OperatorSchedule"/>
+
+</run>
+
+</beast>
