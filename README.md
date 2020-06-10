@@ -66,6 +66,7 @@ This preliminary analysis will require further sampling across Portsmouth and Ha
 Quantifying the impact of COVID-19 is of primordial importance to design public policies that protect the most vulnerable populations. Metadata on patients’ geographic origin, socio-economic background and age will be primordial from this perspective, and are currently collected. We will use other methods of phylodynamic inference that can handle multiple reproductive numbers and propagation rates in connected subpopulations (BDMM, (Kühnert et al., 2016)). These results may help to estimate how the virus spread in different subpopulations, and inform public policies in case of a second wave of infection.
 
 **References**
+
 Drummond AJ, Rambaut A (2007). BEAST : Bayesian evolutionary analysis by sampling trees. 8: 1–8.
 Duchene S, Featherstone L, Haritopoulou-sinanidou M, Rambaut A, Baele G (2020). Temporal signal and the phylodynamic threshold of SARS-CoV-2. bioRxiv.
 Hasegawa M, Kishino H, Yano T aki (1985). Dating of the human-ape splitting by a molecular clock of mitochondrial DNA. J Mol Evol 22: 160–174.
