@@ -14,15 +14,19 @@ Tracking epidemics requires heavy logistics, and may miss many cases due to insu
 **Methods**
 
 _Data filtering_
+
 We used a set of 105 genomes sequenced using a MinION procedure (see the ARTIC network protocol (https://artic.network/ncov-2019)). We aligned consensus sequences on the reference genome (GENBANK accession MN908947.3) using MAFFTv7.453 (Katoh and Standley, 2013). We masked the alignment to exclude spurious variants due to poor mapping and sites prone to homoplasy (http://virological.org/t/issues-with-sars-cov-2-sequencing-data/473). Masking was performed using the maskfasta option in BEDTOOLS (Quinlan and Hall, 2010). After masking, we excluded sequences with more than 15% missing data, estimating the number of ambiguous sites with the nuc option in BEDTOOLS. The birth-death models underlying these two analyses assume a uniform sampling from the epidemic. This means that oversampling of a local transmission cluster may bias the results. To limit overrepresentation of local transmission cases, we removed identical sequences from the dataset, using a UPGMA distance matrix estimated in MEGA X (Kumar et al., 2018). We only kept sequences from patients living in Portsmouth region. The final dataset contained 35 sequences sampled between April 27th and May 25th.
 
-_Birth-death coalescent framework._
+_Birth-death coalescent framework_
+
 We used two different Bayesian methods, implemented in the BEAST2 software (Drummond and Rambaut, 2007). The first package, BDSKY (Stadler et al., 2013), applies the coalescent skyline plot framework to viral sequences. It can estimate the sampling rate, the rate at which individuals become non-infectious, or the effective reproduction number (_R_). All these parameters can change through time in a piecewise way. The second package, EpiInf (Vaughan et al., 2019), is based on the same framework, but also attempts are estimating the evolution of prevalence through time. We used a SIR model, where individuals that survive infection (“I”) are removed (“R”) from the susceptive pool (“S”) and cannot be infected a second time. We adopted this analytical protocol given its ability to reconstruct the dynamics of COVID-19 infections for several outbreaks (http://virological.org/t/phylodynamic-analyses-of-outbreaks-in-china-italy-washington-state-usa-and-the-diamond-princess/439).
 
 _Model of sequence evolution_
+
 We used a HKY model of sequence evolution (Hasegawa et al., 1985), and fixed the substitution rate to 0.001 substitutions/site/year (Duchene et al., 2020). Note that parameters such as prevalence or times will vary according to this rate: using a lower rate would increase estimates. Given that other commonly used estimates of the substitution rate are lower (see for example http://virological.org/t/update-2-evolutionary-epidemiological-analysis-of-128-genomes/423), it is likely that our inference does not overestimate times or prevalence.
 
 _Priors_
+
 For the first analysis (BDSKY), we used a multi-rho sampling model, which takes into account the fact that we sampled multiple sequences simultaneously. We allowed the effective reproduction number (R) to change four times after the start of the epidemics. Given the relatively low number of sequences at this stage, we keep all other parameters constant over time. Priors for parameters are given in Table 2. We used a fixed removal rate of 36.5 year-1 (365/10). Removal rate is the inverse of the time (in years) for an individual to become non-infectious, which is considered reasonable (see http://virological.org/t/update-2-evolutionary-epidemiological-analysis-of-128-genomes/423, (Li et al., 2020)).
 For the second analysis (EpiInf), we specified that samples taken from patients at the hospital coincided with a full removal from the infectious pool (Removal proportion of 1.0). Due to poor mixing of the chains, we did not estimate the initial susceptible population size, and set it to 100,000, which is in the range of the local demographic count.
 
@@ -41,11 +45,13 @@ BDSKY/EpiInf | Reproductive numbers (x4 in   BDSKY) | ~LogNormal(0,1)
 _Table 1. Priors used for BDSKY and EpiInf analyses in BEAST2_
 
 _Markov Chain Monte Carlo (MCMC) procedure and replication_
+
 We ran ten independent chains for both analyses, each lasting two million generations. States were sampled every 1000 generations. For EpiInf, which relies on a particle filter algorithm for estimating prevalence trajectories (see (Vaughan et al., 2019)), we used the default 100 particles per tree prior evaluation. Runs were combined together to obtain posterior distributions for all parameters, removing the first 500,000 generations as burn-in. Visual examination of posterior traces was performed using Tracer v1.7.1 to ensure convergence and good mixing of chains (Rambaut et al., 2018). 
 
 **Results**
 
 _Origin of the epidemic_
+
 Using BDSKY, we could estimate the time at which the epidemic most likely started. We obtained a median estimate of 0.32 years before last sampling, with a 95% highest posterior density (HPD) of [0.27, 0.37]. This assumes a substitution rate of 0.001 substitution/year, and places the start of the epidemic in Portsmouth’s region between January 11th and February 17th.
 Using EpiInf, we obtained a median estimate of 0.21 years, with a broader highest posterior density of [0.16, 0.27], placing the start of the epidemic between February 17th and March 28th. 
 Evolution of _R_, prevalence and slowing down of the epidemic
