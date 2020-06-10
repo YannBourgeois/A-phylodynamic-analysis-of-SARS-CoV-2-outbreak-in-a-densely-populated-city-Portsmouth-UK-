@@ -69,14 +69,23 @@ Quantifying the impact of COVID-19 is of primordial importance to design public 
 **References**
 
 Drummond AJ, Rambaut A (2007). BEAST : Bayesian evolutionary analysis by sampling trees. 8: 1–8.
+
 Duchene S, Featherstone L, Haritopoulou-sinanidou M, Rambaut A, Baele G (2020). Temporal signal and the phylodynamic threshold of SARS-CoV-2. bioRxiv.
+
 Hasegawa M, Kishino H, Yano T aki (1985). Dating of the human-ape splitting by a molecular clock of mitochondrial DNA. J Mol Evol 22: 160–174.
+
 Katoh K, Standley DM (2013). MAFFT multiple sequence alignment software version 7: Improvements in performance and usability. Mol Biol Evol 30: 772–780.
+
 Kühnert D, Stadler T, Vaughan TG, Drummond AJ (2016). Phylodynamics with Migration: A Computational Framework to Quantify Population Structure from Genomic Data. Mol Biol Evol 33: 2102–2116.
+
 Kumar S, Stecher G, Li M, Knyaz C, Tamura K (2018). MEGA X: Molecular evolutionary genetics analysis across computing platforms. Mol Biol Evol 35: 1547–1549.
+
 Li Q, Guan X, Wu P, Wang X, Zhou L, Tong Y, et al. (2020). Early transmission dynamics in Wuhan, China, of novel coronavirus-infected pneumonia. N Engl J Med 382: 1199–1207.
+
 Quinlan AR, Hall IM (2010). BEDTools: a flexible suite of utilities for comparing genomic features. Bioinformatics 26: 841–842.
 Rambaut A, Drummond AJ, Xie D, Baele G, Suchard MA (2018). Posterior summarization in Bayesian phylogenetics using Tracer 1.7. Syst Biol 67: 901–904.
+
 Stadler T, Kühnert D, Bonhoeffer S, Drummond AJ (2013). Birth-death skyline plot reveals temporal changes of epidemic spread in HIV and hepatitis C virus (HCV). Proc Natl Acad Sci U S A 110: 228–233.
+
 Vaughan TG, Leventhal GE, Rasmussen DA, Drummond AJ, Welch D, Stadler T, et al. (2019). Estimating Epidemic Incidence and Prevalence from Genomic Data. Mol Biol Evol 36: 1804–1816.
 
