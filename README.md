@@ -44,6 +44,7 @@ _Markov Chain Monte Carlo (MCMC) procedure and replication_
 We ran ten independent chains for both analyses, each lasting two million generations. States were sampled every 1000 generations. For EpiInf, which relies on a particle filter algorithm for estimating prevalence trajectories (see (Vaughan et al., 2019)), we used the default 100 particles per tree prior evaluation. Runs were combined together to obtain posterior distributions for all parameters, removing the first 500,000 generations as burn-in. Visual examination of posterior traces was performed using Tracer v1.7.1 to ensure convergence and good mixing of chains (Rambaut et al., 2018). 
 
 **Results**
+
 _Origin of the epidemic_
 Using BDSKY, we could estimate the time at which the epidemic most likely started. We obtained a median estimate of 0.32 years before last sampling, with a 95% highest posterior density (HPD) of [0.27, 0.37]. This assumes a substitution rate of 0.001 substitution/year, and places the start of the epidemic in Portsmouth’s region between January 11th and February 17th.
 Using EpiInf, we obtained a median estimate of 0.21 years, with a broader highest posterior density of [0.16, 0.27], placing the start of the epidemic between February 17th and March 28th. 
